@@ -1,4 +1,5 @@
-""" Module contains the functions to encode the rings details    
+""" 
+This file contains both the rotor and plug-board classes.
 Reference: https://en.wikipedia.org/wiki/Enigma_rotor_details
 """
 
