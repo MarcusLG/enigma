@@ -54,11 +54,22 @@ class plug_board:
         self.config_list = self.base_list.copy()
 
     def connect_plug(self, plugs):
-        # Example:
-        # Plugging B to Z shall make "plugs" to come in the form "BZ"
-        # Here we split BZ into constituent character and swap the position
-        # in the base list, this could be repeated as many times depending
-        # on the number of plugs-wire to be connected.
+        """
+        Example:
+        _________________________________________
+        |                                       |
+        |   A  B  C  D  E  F  G  H  I  J        |
+        |  /                                    |
+        | | K  L  M  N  O  P  Q  R  S  T        |
+        | |                                     |
+        | | U  V  W  X  Y  Z                    |
+        | _________________|                    |
+        |_______________________________________|
+        Plugging B to Z shall make "plugs" to come in the form "BZ"
+        Here we split BZ into constituent character and swap the position
+        in the base list, this could be repeated as many times depending
+        on the number of plugs-wire to be connected.
+        """
 
         # Potentially in the future we will add a safeguard on this,
         # now just leave it to wrapper to make sure the variable is 
