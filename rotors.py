@@ -1,7 +1,13 @@
-# Module contains the functions to encode the rings details    
-# Reference: https://en.wikipedia.org/wiki/Enigma_rotor_details
+""" Module contains the functions to encode the rings details    
+Reference: https://en.wikipedia.org/wiki/Enigma_rotor_details
+"""
 
 class rotor:
+    """
+    This is the main rotor class to create the individual rotor to be inserted.
+    Depending on the number of rotor, multiple rotor objects can be created to
+    accomodate that.
+    """
     def __init__(self):
         # Here we encode the different rotor configuration
         # Refer to Reference for details
