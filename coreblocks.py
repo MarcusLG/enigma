@@ -44,14 +44,14 @@ class rotor:
         self.reflector_b_thin = ['E','N','K','Q','A','U','Y','W','J','I','C','O','P','B','L','M','D','X','Z','V','F','T','H','R','G','S']
         self.reflector_c_thin = ['R','D','O','B','J','N','T','K','V','E','H','M','L','F','C','W','Z','A','X','G','Y','I','P','S','U','Q']
 
-class plug_board:
+class plug_internal:
     """
     This is the main plug-board class to create the substitution of character as was served by the plug board
     """
     def __init__(self):
         # Here we create a base list for the character, then each character can be switched-places with another character.
         self.base_list = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-        self.config_list = self.base_list.copy()
+        self.mapping_list = self.base_list.copy()
 
     def connect_plug(self, plugs):
         """
@@ -65,7 +65,7 @@ class plug_board:
         | | U  V  W  X  Y  Z                    |
         | _________________|                    |
         |_______________________________________|
-        Plugging B to Z shall make "plugs" to come in the form "BZ"
+        Plugging A to Z shall make "plugs" to come in the form "BZ"
         Here we split BZ into constituent character and swap the position
         in the base list, this could be repeated as many times depending
         on the number of plugs-wire to be connected.
@@ -76,6 +76,6 @@ class plug_board:
         # limited to 2 characters.
         pos_a = list(plugs)[0]
         pos_b = list(plugs)[1]
-        a, b = self.config_list.index(pos_a), self.config_list.index(pos_b)
-        self.config_list[b], self.config_list[a] = self.config_list[a], self.config_list[b]
+        a, b = self.mapping_list.index(pos_a), self.mapping_list.index(pos_b)
+        self.mapping_list[b], self.mapping_list[a] = self.mapping_list[a], self.mapping_list[b]
         
