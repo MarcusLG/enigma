@@ -18,9 +18,10 @@ class rotor:
         self.IC          = ['D','M','T','W','S','I','L','R','U','Y','Q','N','K','F','E','J','C','A','Z','B','P','G','X','O','H','V']
         self.IIC         = ['H','Q','Z','G','P','J','T','M','O','B','L','N','C','I','F','D','Y','A','W','V','E','U','S','R','K','X']
         self.IIIC        = ['U','Q','N','T','L','S','Z','F','M','R','E','H','D','P','X','K','I','B','V','Y','G','J','C','W','O','A']
-        self.I           = ['J','G','D','Q','O','X','U','S','C','A','M','I','F','R','V','T','P','N','E','W','K','B','L','Z','Y','H']
-        self.II          = ['N','T','Z','P','S','F','B','O','K','M','W','R','C','J','D','I','V','L','A','E','Y','U','X','H','G','Q']
-        self.III         = ['J','V','I','U','B','H','T','C','D','Y','A','K','E','Q','Z','P','O','S','G','X','N','R','M','W','F','L']
+        # Before we figured out the documentation page, comment these sets out for now.
+        #self.I           = ['J','G','D','Q','O','X','U','S','C','A','M','I','F','R','V','T','P','N','E','W','K','B','L','Z','Y','H']
+        #self.II          = ['N','T','Z','P','S','F','B','O','K','M','W','R','C','J','D','I','V','L','A','E','Y','U','X','H','G','Q']
+        #self.III         = ['J','V','I','U','B','H','T','C','D','Y','A','K','E','Q','Z','P','O','S','G','X','N','R','M','W','F','L']
         self.UKW         = ['Q','Y','H','O','G','N','E','C','V','P','U','Z','T','F','D','J','A','X','W','M','K','I','S','R','B','L']
         self.ETW         = ['Q','W','E','R','T','Z','U','I','O','A','S','D','F','G','H','J','K','P','Y','X','C','V','B','N','M','L']
         self.I_K         = ['P','E','Z','U','O','H','X','S','C','V','F','M','T','B','G','L','R','I','N','Q','J','W','A','Y','D','K']
@@ -46,9 +47,75 @@ class rotor:
 
     def calc_offset_distance(self, detail_list):
         """
-        This is the function to generate the relative offset between each rotor
+        This is the function to generate the relative offset between each side of a rotor (i.e. the internal wiring)
         """
         return [self.order_def.index(detail_list[i]) - i for i in range(0, len(detail_list))]
+
+    def rotor_selector(self, rotor_sel):
+        """
+        This functions will be the selector for the rotor based on user input
+        
+        Parameter: 
+            rotor_sel: The selector text, should make the class parameter definition
+        """
+        if rotor_sel == "IC":
+            return self.IC
+        elif rotor_sel == "IIC":
+            return self.IIC
+        elif rotor_sel == "IIIC"
+            return self.IIIC
+        elif rotor_sel == "IIC":
+            return self.IIC
+        elif rotor_sel == "IIIC"
+            return self.IIIC
+        elif rotor_sel == "IIC":
+            return self.IIC
+        elif rotor_sel == "IIIC"
+            return self.IIIC
+        elif rotor_sel == "UKW":
+            return self.UKW
+        elif rotor_sel == "ETW":
+            return self.ETW
+        elif rotor_sel == "I_K":
+            return self.I_K
+        elif rotor_sel == "II_K":
+            return self.II_K
+        elif rotor_sel == "III_K":
+            return self.III_K
+        elif rotor_sel == "UKW_K":
+            return self.UKW_K
+        elif rotor_sel == "ETW_K":
+            return self.ETW_K
+        elif rotor_sel == "I":
+            return self.I
+        elif rotor_sel == "II":
+            return self.II
+        elif rotor_sel == "III":
+            return self.III
+        elif rotor_sel == "IV":
+            return self.IV
+        elif rotor_sel == "V":
+            return self.V
+        elif rotor_sel == "VI":
+            return self.VI
+        elif rotor_sel == "VII":
+            return self.VII
+        elif rotor_sel == "VIII":
+            return self.VIII
+        elif rotor_sel == "beta":
+            return self.beta
+        elif rotor_sel == "gamma":
+            return self.gamma
+        elif rotor_sel == "reflector_a":
+            return self.reflector_a
+        elif rotor_sel == "reflector_b":
+            return self.reflector_b
+        elif rotor_sel == "reflector_c":
+            return self.reflector_c
+        elif rotor_sel == "reflector_b_thin":
+            return self.reflector_b_thin
+        elif rotor_sel == "reflector_c_thin":
+            return self.reflector_c_thin
 
 class plug_internal:
     """
