@@ -62,15 +62,15 @@ class rotor:
             return self.IC
         elif rotor_sel == "IIC":
             return self.IIC
-        elif rotor_sel == "IIIC"
+        elif rotor_sel == "IIIC":
             return self.IIIC
         elif rotor_sel == "IIC":
             return self.IIC
-        elif rotor_sel == "IIIC"
+        elif rotor_sel == "IIIC":
             return self.IIIC
         elif rotor_sel == "IIC":
             return self.IIC
-        elif rotor_sel == "IIIC"
+        elif rotor_sel == "IIIC":
             return self.IIIC
         elif rotor_sel == "UKW":
             return self.UKW
