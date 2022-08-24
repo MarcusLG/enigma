@@ -44,6 +44,12 @@ class rotor:
         self.reflector_b_thin = ['E','N','K','Q','A','U','Y','W','J','I','C','O','P','B','L','M','D','X','Z','V','F','T','H','R','G','S']
         self.reflector_c_thin = ['R','D','O','B','J','N','T','K','V','E','H','M','L','F','C','W','Z','A','X','G','Y','I','P','S','U','Q']
 
+    def calc_offset_distance(self, detail_list):
+        """
+        This is the function to generate the relative offset between each rotor
+        """
+        return [self.order_def.index(detail_list[i]) - i for i in range(0, len(detail_list))]
+
 class plug_internal:
     """
     This is the main plug-board class to create the substitution of character as was served by the plug board
