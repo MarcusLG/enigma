@@ -32,11 +32,13 @@ class enig_single:
                                 The parameter will take the form ["AZ", "BO", "HM"]
         We then initialize an internal list (2D) to represent the rotor state and the number of 
         rotors.
-        pb_setting: Plug-board setting
-        rtr_setting: Rotors setting
+        pb_setting:   Plug-board setting
+        rtr_setting:  Rotors setting
+        rflt_setting: Reflector setting
         """
         self.pb_setting = coreblocks.plug_internal()
         self.rtr_setting = []
+        self.rflt_setting = []
 
         # Here we perform the plug-board initialization:
         self.plug_board_init(plugs_list)
@@ -64,5 +66,14 @@ class enig_single:
             curr_type = rotor_obj.rotor_selector(rotor_type_list[i])
             curr_offset = enig_util.rotate(rotor_obj.calc_offset_distance(curr_type), rotor_starting_pos[i])
             self.rtr_setting.append(curr_offset)
+
+    def encryp_char(self, curr_char):
+        """
+        Parameter:
+            curr_char: Current character to be encrypted.
+        Main wrapper to pass the character for encryption and handle the current and next state of
+        the machine.
+        """
+
 
         
