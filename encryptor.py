@@ -39,6 +39,7 @@ class enig_single:
         self.pb_setting = coreblocks.plug_internal()
         self.rtr_setting = []
         self.rflt_setting = []
+        self.global_debug = False
 
         # Here we perform the plug-board initialization:
         self.plug_board_init(plugs_list)
@@ -74,6 +75,26 @@ class enig_single:
         Main wrapper to pass the character for encryption and handle the current and next state of
         the machine.
         """
+        
+        # Step 1: Pass through plug-board
+        #         Here we find the position of the input char in the alphabet order, then
+        #         find the corresponding character with the plugboard settings.
+        char_pbout = self.pb_setting.mapping_list[self.pb_setting.base_list.index(curr_char)]
 
+        # Step 2: Pass through the rotor
+        char_rtrout = char_pbout
+        rotor_obj = coreblocks.rotor()
+        for element in self.rtr_setting:
+            # For each rotor, we run the same procedure
+
+            # Step I: Get the index for the input
+            temp_idx = rotor_obj.order_def.index(char_rtrout)
+            temp_idx = temp_idx + element[temp_idx]
+            temp_idx = temp_idx if temp_idx < 26  else temp_idx - 26
+            char_rtrout = rotor_obj.order_def[temp_idx]
+            if self.global_debug: 
+                print("Current char_rtrout:\t", char_rtrout)
+
+        # Step 3: Rotate the position
 
         
