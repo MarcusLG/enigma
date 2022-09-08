@@ -15,7 +15,7 @@ class EnigSingle:
     It should also handle the motion of the rotor and upon completion of the current
     iteration, it should move the rotor to the next position.
     """
-    def __init__(self, rotor_type_list, rotor_starting_pos, plugs_list):
+    def __init__(self, rotor_type_list, rotor_starting_pos, reflector_type, plugs_list):
         """
         Parameters:
             rotor_type_list:    The list includes the type of rotor the user would wish
@@ -24,6 +24,9 @@ class EnigSingle:
                                 A 3-rotor system with the first rotor being, III, and I, and V
                                 the input of the parameter should take the form ["III", "I", "V"]
             rotor_starting_pos:
+            reflector_type:
+                                Similar format as rotor_type_list, though not a list as there should
+                                only be one reflector
             plugs_list:         The list includes all the characters to be connected on the virtual
                                 plug board.
                                 Example:
@@ -40,13 +43,15 @@ class EnigSingle:
         self.pb_setting = coreblocks.PlugInternal()
         self.rtr_offsets = []
         self.rtr_mappings = []
-        self.rflt_setting = []
+        self.rflt_offset = []
+        self.rflt_mapping = []
         self.global_debug = False
         self.rotor_obj = coreblocks.Rotor()
 
         # Here we perform the plug-board initialization:
         self.plug_board_init(plugs_list)
         self.rotors_construct(rotor_type_list, rotor_starting_pos)
+        self.reflector_construct(reflector_type)
 
     def plug_board_init(self, plugs_list):
         """
@@ -71,6 +76,15 @@ class EnigSingle:
                                            rotor_starting_pos[count])
             self.rtr_offsets.append(curr_offset)
             self.rtr_mappings.append(enig_util.rotate(curr_type, rotor_starting_pos[count]))
+
+    def reflector_construct(self,reflector_type):
+        """
+        Parameters:
+            reflector_type:    Passed from initializer, see __init__ for details.
+        Works similarly to rotors_construct, but for reflectors
+        """
+        self.rflt_mapping = self.rotor_obj.rotor_selector(reflector_type)
+        self.rflt_offset = self.rotor_obj.calc_offset_distance(self.rflt_mapping)
 
     def set_debug_mode(self, debug_mode):
         """
@@ -112,5 +126,10 @@ class EnigSingle:
             char_rtrout = self.rotor_reflector_op(char_rtrout, element)
             if self.global_debug:
                 print("Current char_rtrout:\t", char_rtrout)
+
+        # Step 3: Pass through the reflector
+        char_rfltout = self.rotor_reflector_op(char_rtrout, element)
+        if self.global_debug:
+            print("Current char_rtrout:\t", char_rtrout)
 
         # Step 3: Rotate the position
