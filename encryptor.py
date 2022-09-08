@@ -42,6 +42,7 @@ class enig_single:
         self.rtr_mappings = []
         self.rflt_setting = []
         self.global_debug = False
+        self.rotor_obj = coreblocks.rotor()
 
         # Here we perform the plug-board initialization:
         self.plug_board_init(plugs_list)
@@ -64,10 +65,9 @@ class enig_single:
             rotor_starting_pos: Passed from initializer, see __init__ for details.
         This function takes the rotor_type_list and rotor_starting_pos and build the rotors set.
         """
-        rotor_obj = coreblocks.rotor()
         for i in range (0, len(rotor_type_list)):
-            curr_type = rotor_obj.rotor_selector(rotor_type_list[i])
-            curr_offset = enig_util.rotate(rotor_obj.calc_offset_distance(curr_type), rotor_starting_pos[i])
+            curr_type = self.rotor_obj.rotor_selector(rotor_type_list[i])
+            curr_offset = enig_util.rotate(self.rotor_obj.calc_offset_distance(curr_type), rotor_starting_pos[i])
             self.rtr_offsets.append(curr_offset)
             self.rtr_mappings.append(enig_util.rotate(curr_type, rotor_starting_pos[i]))
 
@@ -77,6 +77,16 @@ class enig_single:
         """
         print('Variable global_debug set %s' % (debug_mode))
         self.global_debug = debug_mode
+
+    def rotor_reflector_op(self, char_input, lst_offset):
+        """
+        Function to perform the basic IO of a rotor and the flector
+        """
+        temp_idx = self.rotor_obj.order_def.index(char_input)
+        temp_idx = temp_idx + lst_offset[temp_idx]
+        temp_idx = temp_idx if temp_idx < 26  else temp_idx - 26
+        char_output = self.rotor_obj.order_def[temp_idx]
+        return char_output
 
     def encryp_char(self, curr_char):
         """
@@ -93,16 +103,12 @@ class enig_single:
 
         # Step 2: Pass through the rotor
         char_rtrout = char_pbout
-        rotor_obj = coreblocks.rotor()
         for i in range (0, len(self.rtr_offsets)):
         #for element in self.rtr_offsets: Note: Masked out not using element iter
             # For each rotor, we run the same procedure
 
             # Step I: Get the index for the input
-            temp_idx = rotor_obj.order_def.index(char_rtrout)
-            temp_idx = temp_idx + self.rtr_offsets[i][temp_idx]
-            temp_idx = temp_idx if temp_idx < 26  else temp_idx - 26
-            char_rtrout = rotor_obj.order_def[temp_idx]
+            char_rtrout = self.rotor_reflector_op(char_rtrout, self.rtr_offsets[i])
             if self.global_debug: 
                 print("Current char_rtrout:\t", char_rtrout)
 
