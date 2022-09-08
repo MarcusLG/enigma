@@ -33,11 +33,13 @@ class enig_single:
         We then initialize an internal list (2D) to represent the rotor state and the number of 
         rotors.
         pb_setting:   Plug-board setting
-        rtr_setting:  Rotors setting
+        rtr_offsets:  Rotors setting
+        rtr_mappings: Rotors actual mapping (aka, the characters)
         rflt_setting: Reflector setting
         """
         self.pb_setting = coreblocks.plug_internal()
-        self.rtr_setting = []
+        self.rtr_offsets = []
+        self.rtr_mappings = []
         self.rflt_setting = []
         self.global_debug = False
 
@@ -66,7 +68,15 @@ class enig_single:
         for i in range (0, len(rotor_type_list)):
             curr_type = rotor_obj.rotor_selector(rotor_type_list[i])
             curr_offset = enig_util.rotate(rotor_obj.calc_offset_distance(curr_type), rotor_starting_pos[i])
-            self.rtr_setting.append(curr_offset)
+            self.rtr_offsets.append(curr_offset)
+            self.rtr_mappings.append(enig_util.rotate(curr_type, rotor_starting_pos[i]))
+
+    def set_debug_mode(self, debug_mode):
+        """
+        A simple function to toggle the internal debug_mode token
+        """
+        print('Variable global_debug set %s' % (debug_mode))
+        self.global_debug = debug_mode
 
     def encryp_char(self, curr_char):
         """
@@ -84,12 +94,13 @@ class enig_single:
         # Step 2: Pass through the rotor
         char_rtrout = char_pbout
         rotor_obj = coreblocks.rotor()
-        for element in self.rtr_setting:
+        for i in range (0, len(self.rtr_offsets)):
+        #for element in self.rtr_offsets: Note: Masked out not using element iter
             # For each rotor, we run the same procedure
 
             # Step I: Get the index for the input
             temp_idx = rotor_obj.order_def.index(char_rtrout)
-            temp_idx = temp_idx + element[temp_idx]
+            temp_idx = temp_idx + self.rtr_offsets[i][temp_idx]
             temp_idx = temp_idx if temp_idx < 26  else temp_idx - 26
             char_rtrout = rotor_obj.order_def[temp_idx]
             if self.global_debug: 
