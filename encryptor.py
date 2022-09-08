@@ -1,15 +1,15 @@
-""" 
+"""
 This file contains the functions to implement the structure of
-the encryption. 
+the encryption.
 """
 
 import coreblocks
 import enig_util
 
-class enig_single:
+class EnigSingle:
     """
     This class creates an object to take the input character, consider this as the
-    object for one iteration of the enigma encryption based on the initial 
+    object for one iteration of the enigma encryption based on the initial
     state of the rotors setting as well as the movement of rotors for each character.
 
     It should also handle the motion of the rotor and upon completion of the current
@@ -18,31 +18,31 @@ class enig_single:
     def __init__(self, rotor_type_list, rotor_starting_pos, plugs_list):
         """
         Parameters:
-            rotor_type_list:    The list includes the type of rotor the user would wish 
+            rotor_type_list:    The list includes the type of rotor the user would wish
                                 to use.
                                 Example:
                                 A 3-rotor system with the first rotor being, III, and I, and V
                                 the input of the parameter should take the form ["III", "I", "V"]
-            rotor_starting_pos: 
+            rotor_starting_pos:
             plugs_list:         The list includes all the characters to be connected on the virtual
                                 plug board.
                                 Example:
                                 The user wishes to connect the following pairs of characters:
                                 AZ, BO, HM
                                 The parameter will take the form ["AZ", "BO", "HM"]
-        We then initialize an internal list (2D) to represent the rotor state and the number of 
+        We then initialize an internal list (2D) to represent the rotor state and the number of
         rotors.
         pb_setting:   Plug-board setting
         rtr_offsets:  Rotors setting
         rtr_mappings: Rotors actual mapping (aka, the characters)
         rflt_setting: Reflector setting
         """
-        self.pb_setting = coreblocks.plug_internal()
+        self.pb_setting = coreblocks.PlugInternal()
         self.rtr_offsets = []
         self.rtr_mappings = []
         self.rflt_setting = []
         self.global_debug = False
-        self.rotor_obj = coreblocks.rotor()
+        self.rotor_obj = coreblocks.Rotor()
 
         # Here we perform the plug-board initialization:
         self.plug_board_init(plugs_list)
@@ -65,11 +65,12 @@ class enig_single:
             rotor_starting_pos: Passed from initializer, see __init__ for details.
         This function takes the rotor_type_list and rotor_starting_pos and build the rotors set.
         """
-        for i in range (0, len(rotor_type_list)):
-            curr_type = self.rotor_obj.rotor_selector(rotor_type_list[i])
-            curr_offset = enig_util.rotate(self.rotor_obj.calc_offset_distance(curr_type), rotor_starting_pos[i])
+        for count, element in enumerate(rotor_type_list):
+            curr_type = self.rotor_obj.rotor_selector(element)
+            curr_offset = enig_util.rotate(self.rotor_obj.calc_offset_distance(curr_type),
+                                           rotor_starting_pos[count])
             self.rtr_offsets.append(curr_offset)
-            self.rtr_mappings.append(enig_util.rotate(curr_type, rotor_starting_pos[i]))
+            self.rtr_mappings.append(enig_util.rotate(curr_type, rotor_starting_pos[count]))
 
     def set_debug_mode(self, debug_mode):
         """
@@ -95,7 +96,7 @@ class enig_single:
         Main wrapper to pass the character for encryption and handle the current and next state of
         the machine.
         """
-        
+
         # Step 1: Pass through plug-board
         #         Here we find the position of the input char in the alphabet order, then
         #         find the corresponding character with the plugboard settings.
@@ -103,15 +104,13 @@ class enig_single:
 
         # Step 2: Pass through the rotor
         char_rtrout = char_pbout
-        for i in range (0, len(self.rtr_offsets)):
+        for count,element in enumerate(self.rtr_offsets):
         #for element in self.rtr_offsets: Note: Masked out not using element iter
             # For each rotor, we run the same procedure
 
             # Step I: Get the index for the input
-            char_rtrout = self.rotor_reflector_op(char_rtrout, self.rtr_offsets[i])
-            if self.global_debug: 
+            char_rtrout = self.rotor_reflector_op(char_rtrout, element)
+            if self.global_debug:
                 print("Current char_rtrout:\t", char_rtrout)
 
         # Step 3: Rotate the position
-
-        
