@@ -182,6 +182,6 @@ class PlugInternal:
         # limited to 2 characters.
         pos_a = list(plugs)[0]
         pos_b = list(plugs)[1]
-        a, b = self.mapping_list.index(pos_a), self.mapping_list.index(pos_b)
-        self.mapping_list[b], self.mapping_list[a] = self.mapping_list[a], self.mapping_list[b]
+        idx_a, idx_b = self.mapping_list.index(pos_a), self.mapping_list.index(pos_b)
+        self.mapping_list[idx_b], self.mapping_list[idx_a] = self.mapping_list[idx_a], self.mapping_list[idx_b]
         

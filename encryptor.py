@@ -128,8 +128,8 @@ class EnigSingle:
                 print("Current char_rtrout:\t", char_rtrout)
 
         # Step 3: Pass through the reflector
-        char_rfltout = self.rotor_reflector_op(char_rtrout, element)
+        char_rfltout = self.rotor_reflector_op(char_rtrout, self.rflt_offset)
         if self.global_debug:
-            print("Current char_rtrout:\t", char_rtrout)
+            print("Current char_rtrout:\t", char_rfltout)
 
         # Step 3: Rotate the position
