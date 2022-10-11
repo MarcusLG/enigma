@@ -103,6 +103,23 @@ class EnigSingle:
         char_output = self.rotor_obj.order_def[temp_idx]
         return char_output
 
+    def reverse_rotor(self,char_input, lsl_mapping):
+        """
+        Function to perform the reverse transfer of signal
+        Parameters:
+            char_input:  The input character to be fed into the function.
+            lsl_mapping: The rotor mapping (actual character list instead of
+                         the offset), used to map the corresponding character
+                         on the other side.
+        """
+        
+        # How it works
+        # Check the character position corresponding to the list and return the
+        # corresponding character on the other side.
+
+        char_output = self.rotor_obj.order_def[lsl_mapping.index(char_input)]
+        return char_output
+
     def encryp_char(self, curr_char):
         """
         Parameter:
@@ -131,5 +148,8 @@ class EnigSingle:
         char_rfltout = self.rotor_reflector_op(char_rtrout, self.rflt_offset)
         if self.global_debug:
             print("Current char_rtrout:\t", char_rfltout)
+
+        # Step 4: Reverse order, and passing through the rotors
+        
 
         # Step 3: Rotate the position
